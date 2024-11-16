@@ -1,0 +1,139 @@
+cloud-architecture-diagram
+
+// Title
+title Multi-Region Infrastructure Deployment Diagram for Multitenant Application
+
+// Common EKS Cluster
+Common EKS Cluster [icon: k8s-cluster, color: gray] {
+  Common Auto-Scaling [icon:aws-auto-scaling]
+              }
+
+// Europe EKS Cluster
+Europe EKS Cluster [icon: k8s-cluster, color: blue] {
+  UK Node [icon: aws-ec2]
+  Swiss Node [icon: aws-ec2]
+  Europe ProxySQL [icon:database]
+  Europe RDS MySQL [icon: aws-rds,  label: "Europe RDS MySQL (Regional)"]
+  UK RDS MySQL [icon: aws-rds,  label: "UK RDS MySQL (Regional)"]
+  Swiss RDS MySQL [icon: aws-rds,  label: "Swiss RDS MySQL (Regional)"]
+  Europe Auto-Scaling [icon:aws-auto-scaling]
+  Europe RDS MySQL Replica [icon:aws-rds, label:"Europe RDS MySQL Replica"]
+}
+
+// Asia EKS Cluster
+Asia EKS Cluster [icon: k8s-cluster, color: green] {
+  India Node [icon: aws-ec2]
+  Singapore Node [icon: aws-ec2]
+  Dubai Node [icon: aws-ec2]
+  Hong Kong Node [icon: aws-ec2]
+  Oman Node [icon: aws-ec2]
+  Asia ProxySQL [icon:database]
+  Asia RDS MySQL [icon: aws-rds,  label: "Asia RDS MySQL (Regional)"]
+  India RDS MySQL [icon: aws-rds,  label: "India RDS MySQL (Regional)"]
+  Singapore RDS MySQL [icon: aws-rds,  label: "Singapore RDS MySQL (Regional)"]
+  Dubai RDS MySQL [icon: aws-rds,  label: "Dubai RDS MySQL (Regional)"]
+  Hong Kong RDS MySQL [icon: aws-rds,  label: "Hong Kong RDS MySQL (Regional)"]
+  Oman RDS MySQL [icon: aws-rds,  label: "Oman RDS MySQL (Regional)"]
+  Asia Auto-Scaling [icon:aws-auto-scaling]
+  Asia RDS MySQL Replica [icon:aws-rds, label:"Asia RDS MySQL Replica"]
+}
+
+// Network Components
+Route 53 [icon: aws-route-53]
+AWS API Gateway [icon: aws-api-gateway]
+NAT Gateway [icon: aws-nat-gateway]
+WAF [icon: aws-waf]
+Load Balancer [icon: aws-elb]
+eu.wealthfy.com [icon:globe]
+asia.wealthfy.com [icon:globe]
+Europe React App [icon:react]
+Europe S3 Bucket [icon:aws-s3]
+Europe CDN [icon:aws-cloudfront]
+Asia React App [icon:react]
+Asia S3 Bucket [icon:aws-s3]
+Asia CDN [icon:aws-cloudfront]
+AWS Shield [icon:aws-shield]
+AWS Secrets Manager [icon:aws-secrets-manager]
+AWS IAM [icon:aws-iam]
+AWS KMS [icon:aws-kms]
+AWS Config [icon:aws-config]
+AWS CloudWatch [icon:aws-cloudwatch]
+AWS GuardDuty [icon:aws-guardduty]
+AWS Certificate Manager [icon:aws-certificate-manager]
+AWS Macie [icon:aws-macie]
+AWS X-Ray [icon:aws-x-ray]
+AWS CloudTrail [icon:aws-cloudtrail]
+Fluentd [icon:feather]
+AWS Global Accelerator [icon:aws-global-accelerator]
+AWS Elastic Beanstalk [icon:aws-elastic-beanstalk]
+
+// Database and Proxy
+
+// Connections
+
+
+
+
+WAF > Load Balancer
+Common EKS Cluster < AWS API Gateway
+Europe EKS Cluster < AWS API Gateway
+Asia EKS Cluster < AWS API Gateway
+Europe EKS Cluster < NAT Gateway
+Asia EKS Cluster < NAT Gateway
+Common EKS Cluster < Load Balancer
+Europe EKS Cluster < Load Balancer
+Asia EKS Cluster < Load Balancer
+Europe ProxySQL > Europe RDS MySQL
+Asia ProxySQL > Asia RDS MySQL
+Europe EKS Cluster > Europe ProxySQL
+Asia EKS Cluster > Asia ProxySQL
+Route 53 > eu.wealthfy.com
+eu.wealthfy.com > Europe CDN
+Europe CDN > Europe S3 Bucket
+Europe React App > AWS API Gateway
+Route 53 > asia.wealthfy.com
+asia.wealthfy.com > Asia CDN
+Asia CDN > Asia S3 Bucket
+Asia React App > AWS API Gateway
+India Node > India RDS MySQL
+India RDS MySQL > Asia ProxySQL
+Singapore Node > Singapore RDS MySQL
+Singapore RDS MySQL > Asia ProxySQL
+Dubai Node > Dubai RDS MySQL
+Dubai RDS MySQL > Asia ProxySQL
+Hong Kong Node > Hong Kong RDS MySQL
+Hong Kong RDS MySQL > Asia ProxySQL
+Oman Node > Oman RDS MySQL
+Oman RDS MySQL > Asia ProxySQL
+UK Node > UK RDS MySQL
+UK RDS MySQL > Europe ProxySQL
+Swiss Node > Swiss RDS MySQL
+Swiss RDS MySQL > Europe ProxySQL
+AWS Shield > Load Balancer
+AWS Secrets Manager > Europe RDS MySQL
+AWS Secrets Manager > Asia RDS MySQL
+AWS IAM > AWS API Gateway
+AWS KMS > AWS Secrets Manager
+AWS Config > Common EKS Cluster
+Common EKS Cluster > Common Auto-Scaling
+Europe EKS Cluster > Europe Auto-Scaling
+Asia EKS Cluster > Asia Auto-Scaling
+AWS CloudWatch > Common EKS Cluster
+AWS CloudWatch > Europe EKS Cluster
+AWS CloudWatch > Asia EKS Cluster
+AWS GuardDuty > Common EKS Cluster
+AWS GuardDuty > Europe EKS Cluster
+AWS GuardDuty > Asia EKS Cluster
+AWS Certificate Manager > Load Balancer
+AWS Macie > Europe RDS MySQL
+AWS Macie > Asia RDS MySQL
+AWS X-Ray > AWS API Gateway
+AWS CloudTrail > AWS API Gateway
+Fluentd > AWS CloudWatch
+Europe RDS MySQL > Europe RDS MySQL Replica
+Asia RDS MySQL > Asia RDS MySQL Replica
+Route 53 > AWS Global Accelerator
+AWS Global Accelerator > Load Balancer
+AWS Elastic Beanstalk > AWS CloudWatch
+AWS Elastic Beanstalk > AWS X-Ray
+
